@@ -25,7 +25,7 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    /* === HIỆU ỨNG MỞ MẮT (EYE-OPENING REVEAL) === */
+    /* === HIỆU ỨNG CHỚP MẮT NHIỀU NHỊP RỒI MỞ HẲN === */
     .eye-overlay {
       position: fixed;
       inset: 0;
@@ -33,8 +33,8 @@
       pointer-events: none;
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
-      background: rgba(5, 5, 7, 0.65);
-      animation: unblurEye 2.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      background: rgba(5, 5, 7, 0.7);
+      animation: multiBlinkBlur 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
     .eyelid-top, .eyelid-bottom {
@@ -50,59 +50,48 @@
     .eyelid-top {
       top: 0;
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.95);
-      animation: openTopLid 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation: multiBlinkTop 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
     .eyelid-bottom {
       bottom: 0;
       box-shadow: 0 -25px 50px rgba(0, 0, 0, 0.95);
-      animation: openBottomLid 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation: multiBlinkBottom 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
-    @keyframes openTopLid {
-      0% { transform: translateY(0); }
-      25% { transform: translateY(-28%); }
-      45% { transform: translateY(-18%); }
-      100% { transform: translateY(-120%); }
+    /* Chuỗi chớp mắt liên tục 3 nhịp trước khi mở hoàn toàn */
+    @keyframes multiBlinkTop {
+      0%   { transform: translateY(0); }       /* Nhắm chặt */
+      15%  { transform: translateY(-35%); }    /* Hé lần 1 */
+      25%  `{ transform: translateY(-5%); }`     /* Nhắm lại nhanh */
+      38%  { transform: translateY(-55%); }    /* Hé lần 2 rộng hơn */
+      50%  { transform: translateY(-15%); }    /* Chớp nhẹ lại */
+      65%  { transform: translateY(-70%); }    /* Hé lần 3 */
+      100% { transform: translateY(-120%); }   /* Mở hẳn ra ngoài */
     }
 
-    @keyframes openBottomLid {
-      0% { transform: translateY(0); }
-      25% { transform: translateY(28%); }
-      45% { transform: translateY(18%); }
+    @keyframes multiBlinkBottom {
+      0%   { transform: translateY(0); }
+      15%  { transform: translateY(35%); }
+      25%  { transform: translateY(5%); }
+      38%  { transform: translateY(55%); }
+      50%  { transform: translateY(15%); }
+      65%  { transform: translateY(70%); }
       100% { transform: translateY(120%); }
     }
 
-    @keyframes unblurEye {
-      0% {
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
-        background: rgba(5, 5, 7, 0.85);
-      }
-      50% {
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        background: rgba(5, 5, 7, 0.35);
-      }
-      100% {
-        backdrop-filter: blur(0px);
-        -webkit-backdrop-filter: blur(0px);
-        background: rgba(5, 5, 7, 0);
-        visibility: hidden;
-      }
+    @keyframes multiBlinkBlur {
+      0%   { backdrop-filter: blur(32px); background: rgba(5, 5, 7, 0.9); }
+      25%  { backdrop-filter: blur(18px); background: rgba(5, 5, 7, 0.5); }
+      50%  { backdrop-filter: blur(22px); background: rgba(5, 5, 7, 0.6); } /* Nhịp chớp */
+      70%  { backdrop-filter: blur(10px); background: rgba(5, 5, 7, 0.2); }
+      100% { backdrop-filter: blur(0px);  background: rgba(5, 5, 7, 0); visibility: hidden; }
     }
 
     @keyframes focusCard {
-      0% {
-        opacity: 0;
-        filter: blur(16px);
-        transform: scale(0.95);
-      }
-      100% {
-        opacity: 1;
-        filter: blur(0px);
-        transform: scale(1);
-      }
+      0%   { opacity: 0; filter: blur(16px); transform: scale(0.95); }
+      50%  { opacity: 0.4; filter: blur(8px); transform: scale(0.97); }
+      100% { opacity: 1; filter: blur(0px); transform: scale(1); }
     }
 
     body {
@@ -127,7 +116,7 @@
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
       text-align: center;
       padding-bottom: 32px;
-      animation: focusCard 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation: focusCard 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
     .banner {
@@ -287,7 +276,7 @@
 </head>
 <body>
 
-  <!-- Lớp phủ hiệu ứng mở mắt -->
+  <!-- Lớp phủ hiệu ứng chớp mắt nhiều nhịp -->
   <div class="eyelid-top"></div>
   <div class="eyelid-bottom"></div>
   <div class="eye-overlay"></div>
@@ -321,8 +310,8 @@
         <a href="mailto:khgnphm0812@gmail.com" class="social-icon" title="Email"><i class="fa-solid fa-envelope"></i></a>
       </div>
 
-      <div class="spotify-wrap">
-        <iframe style="border-radius: 16px;" src="https://open.spotify.com/embed/track/0WO9TANaim4bhgq8rrEcKa?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-icon-picture" loading="lazy"></iframe>
+     <div class="spotify-wrap">
+        <iframe style="border-radius: 16px;" src="https://open.spotify.com/embed/track/0lTrNLrN8c9swHGt4dAfoD?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
 
       <div class="footer">© 2026 Made by Khang Phạm</div>
