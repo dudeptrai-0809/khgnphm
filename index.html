@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bio Link Profile - Tên Của Bạn</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.15);
+      --border-color: rgba(255, 255, 255, 0.15);
+      --text-main: #ffffff;
+      --text-sub: #cbd5e1;
+      --accent: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 32px 16px;
+    }
+
+    /* Khung Profile chính */
+    .profile-card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid var(--border-color);
+      border-radius: 28px;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      padding-bottom: 32px;
+    }
+
+    /* Phần Banner Cover */
+    .banner {
+      position: relative;
+      width: 100%;
+      height: 165px;
+      background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Lớp phủ mờ nhẹ giúp nút góc trên dễ nhìn */
+    .banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(15,23,42,0.7));
+    }
+
+    /* Nút chia sẻ nằm trên góc phải Banner */
+    .share-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 99px;
+      font-size: 13px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .share-btn:hover {
+      background: var(--accent);
+      color: #0f172a;
+      border-color: var(--accent);
+    }
+
+    /* Ảnh đại diện đè lên mép Banner */
+    .avatar-wrap {
+      position: relative;
+      width: 112px;
+      height: 112px;
+      margin: -56px auto 14px;
+      z-index: 2;
+    }
+
+    .avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #161b33;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .status-dot {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 18px;
+      height: 18px;
+      background: #22c55e;
+      border: 3px solid #161b33;
+      border-radius: 50%;
+    }
+
+    /* Phần nội dung bên dưới Banner */
+    .content {
+      padding: 0 24px;
+    }
+
+    .name {
+      font-size: 23px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .verified {
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    .bio {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+
+    /* Hàng icon mạng xã hội nhanh */
+    .social-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .social-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 17px;
+      transition: 0.25s;
+    }
+
+    .social-icon:hover {
+      background: var(--accent);
+      color: #0f172a;
+      transform: translateY(-3px);
+    }
+
+    /* Danh sách nút liên kết chính */
+    .links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.25s ease;
+    }
+
+    .link-card:hover {
+      background: var(--card-hover);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .link-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+    }
+
+    .link-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .link-title {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .link-sub {
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    .footer {
+      margin-top: 28px;
+      font-size: 12px;
+      color: var(--text-sub);
+      opacity: 0.65;
+    }
+
+    /* Thông báo copy link */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #22c55e;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.3s;
+      opacity: 0;
+      z-index: 99;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="profile-card">
+    <!-- Banner Cover (Thay ảnh banner của bạn ở background-image trong CSS) -->
+    <div class="banner">
+      <button class="share-btn" onclick="copyProfileLink()">
+        <i class="fa-solid fa-link"></i> Sao chép link
+      </button>
+    </div>
+
+    <!-- Ảnh đại diện -->
+    <div class="avatar-wrap">
+      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" alt="Avatar" class="avatar">
+      <span class="status-dot" title="Đang hoạt động"></span>
+    </div>
+
+    <div class="content">
+      <!-- Tên & Tiểu sử -->
+      <h1 class="name">
+        Nguyễn Minh Anh <i class="fa-solid fa-circle-check verified"></i>
+      </h1>
+      <p class="bio">
+        Frontend Developer & Content Creator ✨<br>
+        Chia sẻ kiến thức lập trình, thiết kế UI/UX và cuộc sống hằng ngày.
+      </p>
+
+      <!-- Mạng xã hội nhanh -->
+      <div class="social-row">
+        <a href="https://facebook.com" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://tiktok.com" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="https://instagram.com" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://github.com" target="_blank" class="social-icon" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="mailto:emailcuaban@gmail.com" class="social-icon" title="Email"><i class="fa-solid fa-envelope"></i></a>
+      </div>
+
+      <!-- Danh sách các nút link chính -->
+      <div class="links-list">
+        <a href="https://your-portfolio.com" target="_blank" class="link-card">
+          <div class="link-left">
+            <div class="link-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <div>
+              <div class="link-title">Portfolio & Dự Án Cá Nhân</div>
+              <div class="link-sub">Xem các website và sản phẩm mình đã làm</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="opacity: 0.5;"></i>
+        </a>
+
+        <a href="https://youtube.com" target="_blank" class="link-card">
+          <div class="link-left">
+            <div class="link-icon"><i class="fa-brands fa-youtube"></i></div>
+            <div>
+              <div class="link-title">Kênh YouTube Chia Sẻ Code</div>
+              <div class="link-sub">Video hướng dẫn HTML, CSS, JS từ cơ bản</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="opacity: 0.5;"></i>
+        </a>
+
+        <a href="https://zalo.me" target="_blank" class="link-card">
+          <div class="link-left">
+            <div class="link-icon"><i class="fa-solid fa-paper-plane"></i></div>
+            <div>
+              <div class="link-title">Liên Hệ Công Việc / Booking</div>
+              <div class="link-sub">Nhắn tin trực tiếp qua Zalo hoặc Telegram</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="opacity: 0.5;"></i>
+        </a>
+      </div>
+
+      <div class="footer">© 2026 Made by Minh Anh</div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Đã sao chép đường dẫn Profile!</div>
+
+  <script>
+    function copyProfileLink() {
+      navigator.clipboard.writeText(window.location.href);
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+  </script>
+</body>
+</html>
