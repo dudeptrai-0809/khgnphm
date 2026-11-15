@@ -9,14 +9,13 @@
   
   <style>
     :root {
-      
       --bg-gradient: linear-gradient(135deg, #050507 0%, #121216 50%, #1c1c24 100%);
       --card-bg: rgba(255, 255, 255, 0.05);
       --card-hover: rgba(255, 255, 255, 0.1);
       --border-color: rgba(255, 255, 255, 0.1);
       --text-main: #ffffff;
       --text-sub: #a1a1aa;
-      --accent: #f4f4f5; /* Điểm nhấn trắng sáng sang trọng */
+      --accent: #f4f4f5;
     }
 
     * {
@@ -24,6 +23,86 @@
       margin: 0;
       padding: 0;
       font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* === HIỆU ỨNG MỞ MẮT (EYE-OPENING REVEAL) === */
+    .eye-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      background: rgba(5, 5, 7, 0.65);
+      animation: unblurEye 2.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .eyelid-top, .eyelid-bottom {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: 55vh;
+      background: #000000;
+      z-index: 10000;
+      pointer-events: none;
+    }
+
+    .eyelid-top {
+      top: 0;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.95);
+      animation: openTopLid 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .eyelid-bottom {
+      bottom: 0;
+      box-shadow: 0 -25px 50px rgba(0, 0, 0, 0.95);
+      animation: openBottomLid 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes openTopLid {
+      0% { transform: translateY(0); }
+      25% { transform: translateY(-28%); }
+      45% { transform: translateY(-18%); }
+      100% { transform: translateY(-120%); }
+    }
+
+    @keyframes openBottomLid {
+      0% { transform: translateY(0); }
+      25% { transform: translateY(28%); }
+      45% { transform: translateY(18%); }
+      100% { transform: translateY(120%); }
+    }
+
+    @keyframes unblurEye {
+      0% {
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        background: rgba(5, 5, 7, 0.85);
+      }
+      50% {
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        background: rgba(5, 5, 7, 0.35);
+      }
+      100% {
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+        background: rgba(5, 5, 7, 0);
+        visibility: hidden;
+      }
+    }
+
+    @keyframes focusCard {
+      0% {
+        opacity: 0;
+        filter: blur(16px);
+        transform: scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        filter: blur(0px);
+        transform: scale(1);
+      }
     }
 
     body {
@@ -34,6 +113,7 @@
       justify-content: center;
       align-items: center;
       padding: 32px 16px;
+      overflow-x: hidden;
     }
 
     .profile-card {
@@ -47,6 +127,7 @@
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
       text-align: center;
       padding-bottom: 32px;
+      animation: focusCard 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
     .banner {
@@ -206,6 +287,11 @@
 </head>
 <body>
 
+  <!-- Lớp phủ hiệu ứng mở mắt -->
+  <div class="eyelid-top"></div>
+  <div class="eyelid-bottom"></div>
+  <div class="eye-overlay"></div>
+
   <div class="profile-card">
     <div class="banner">
       <button class="share-btn" onclick="copyProfileLink()">
@@ -228,7 +314,7 @@
       </p>
 
       <div class="social-row">
-        <a href="https://www.facebook.com/share/1BLVBG1YMn/?mibextid=wwXIfr" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://www.facebook.com/share/1BLVBG1YMn/?mibextid=wwXIFr" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
         <a href="https://www.tiktok.com/@khgn.8129?_r=1&_t=ZS-9BPzEWzeMk9" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
         <a href="https://www.instagram.com/khg_phm?rpxt=MWI3MWtnenNrd2lkYg%3D%3D&utm_source=qr" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
         <a href="https://github.com/dudeptrai-0809" target="_blank" class="social-icon" title="GitHub"><i class="fa-brands fa-github"></i></a>
@@ -236,11 +322,22 @@
       </div>
 
       <div class="spotify-wrap">
-        <iframe style="border-radius: 16px;" src="https://open.spotify.com/embed/track/0WO9TANaim4bhgq8rrEcKa?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <iframe style="border-radius: 16px;" src="https://open.spotify.com/embed/track/0WO9TANaim4bhgq8rrEcKa?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-icon-picture" loading="lazy"></iframe>
       </div>
 
       <div class="footer">© 2026 Made by Khang Phạm</div>
     </div>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast">Đã sao chép đường dẫn Profile!</div>
+
+  <script>
+    function copyProfileLink() {
+      navigator.clipboard.writeText(window.location.href);
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+  </script>
+</body>
+</html>
